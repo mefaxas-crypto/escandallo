@@ -822,7 +822,7 @@
         }
 
         function handleCsvExport() {
-            let csvContent = "Codigo,Nombre,CantidadCompra,UnidadCompra,Costo\n";
+            let csvContent = "Código,Nombre,CantidadCompra,UnidadCompra,Costo\n";
             ingredients.forEach(ing => {
                 const row = [ing.materialCode, `"${ing.name}"`, ing.purchaseQuantity, ing.purchaseUnit, ing.purchaseCost].join(',');
                 csvContent += row + "\r\n";
