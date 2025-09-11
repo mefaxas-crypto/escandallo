@@ -87,11 +87,16 @@
              <img src="https://i.imgur.com/bX34R22.png" alt="Hotel Logo" class="h-24 mx-auto">
         </header>
 
-        <nav class="mb-8 bg-white/60 p-3 rounded-xl shadow-sm border border-white/30 flex justify-center space-x-4 backdrop-blur-sm">
-            <button id="nav-calculator" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-[#604029] text-white shadow-sm">Plantilla de Receta</button>
-            <button id="nav-ingredients" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white">Lista de Ingredientes</button>
-            <button id="nav-recipes" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white">Recetas</button>
-            <button id="nav-dishes" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white">Platos</button>
+        <nav class="mb-8 bg-white/60 p-3 rounded-xl shadow-sm border border-white/30 flex justify-center space-x-2 md:space-x-4 backdrop-blur-sm overflow-x-auto">
+            <button id="nav-calculator" class="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-[#604029] text-white shadow-sm flex-shrink-0">Plantilla de Receta</button>
+            <button id="nav-ingredients" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Ingredientes</button>
+            <button id="nav-recipes" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Recetas</button>
+            <button id="nav-dishes" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Platos</button>
+            <button id="nav-inventory" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Inventario</button>
+            <button id="nav-inventory-history" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Historial de Cortes</button>
+            <button id="nav-variance-analysis" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Análisis de Varianza</button>
+            <button id="nav-reports" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Reporte Semanal</button>
+            <button id="nav-report-history" class="px-4 py-2 rounded-md text-sm font-medium transition-colors text-[#604029] hover:bg-white/80 border border-transparent hover:border-white flex-shrink-0">Historial de Reportes</button>
         </nav>
 
         <main id="app-content">
@@ -349,6 +354,151 @@
                         </div>
                 </div>
             </div>
+             
+            <div id="view-inventory" class="hidden">
+                <div class="bg-white/80 p-6 rounded-2xl shadow-lg border border-white/40 backdrop-blur-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-[#604029]">Inventario Actual</h2>
+                        <button id="inventory-snapshot-btn" class="bg-white text-[#604029] font-semibold py-2 px-4 rounded-lg border border-[#604029]/30 hover:bg-[#604029] hover:text-white transition-colors">Hacer Corte de Inventario</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-transparent">
+                            <thead class="bg-transparent">
+                                <tr>
+                                    <th class="header-cell text-left">Código</th>
+                                    <th class="header-cell text-left">Nombre</th>
+                                    <th class="header-cell text-left">Stock Actual</th>
+                                    <th class="header-cell text-left">Unidad</th>
+                                    <th class="header-cell text-left">Par Stock</th>
+                                    <th class="header-cell text-left">Costo Unitario</th>
+                                    <th class="header-cell text-left">Valor de Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-table-body" class="divide-y divide-gray-200">
+                            </tbody>
+                             <tfoot class="bg-transparent">
+                                <tr class="border-t-4 border-[#604029]">
+                                    <td colspan="6" class="table-cell text-right font-bold text-lg text-[#604029]">Valor Total del Inventario</td>
+                                    <td id="total-inventory-value" class="table-cell font-bold text-lg text-[#374151]">$0.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-inventory-history" class="hidden">
+                <div class="bg-white/80 p-6 rounded-2xl shadow-lg border border-white/40 backdrop-blur-md">
+                    <h2 class="text-2xl font-semibold text-[#604029] mb-4">Historial de Cortes de Inventario</h2>
+                    <div id="inventory-snapshot-list" class="space-y-4">
+                        <p class="text-center text-gray-500">No hay cortes guardados.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-variance-analysis" class="hidden">
+                 <div class="bg-white/80 p-6 rounded-2xl shadow-lg border border-white/40 backdrop-blur-md">
+                     <h2 class="text-2xl font-semibold text-[#604029] mb-4">Análisis de Varianza</h2>
+                     <div class="flex items-center space-x-4 mb-6">
+                        <label for="variance-period-select" class="summary-label">Seleccionar Semana del Reporte:</label>
+                        <select id="variance-period-select" class="p-2 border border-gray-300 rounded-md focus:ring-[#604029] focus:border-[#604029]"></select>
+                         <button id="calculate-variance-btn" class="bg-[#604029] text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:opacity-90">Analizar Varianza</button>
+                     </div>
+                      <div id="variance-results-container" class="hidden">
+                         <h3 class="text-xl font-semibold text-[#604029] mb-2">Resultados del Análisis</h3>
+                         <div class="overflow-x-auto">
+                            <table class="min-w-full bg-transparent">
+                                <thead class="bg-transparent">
+                                    <tr>
+                                        <th class="header-cell text-left">Ingrediente</th>
+                                        <th class="header-cell text-right">Consumo Teórico (g)</th>
+                                        <th class="header-cell text-right">Consumo Real (g)</th>
+                                        <th class="header-cell text-right">Varianza (g)</th>
+                                        <th class="header-cell text-right">Varianza ($)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="variance-results-table" class="divide-y divide-gray-200"></tbody>
+                                 <tfoot class="bg-transparent">
+                                    <tr class="border-t-4 border-[#604029]">
+                                        <td colspan="4" class="table-cell text-right font-bold text-lg text-[#604029]">Varianza Total</td>
+                                        <td id="total-variance-value" class="table-cell font-bold text-lg text-red-600 text-right">$0.00</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                     </div>
+                 </div>
+            </div>
+
+            <div id="view-reports" class="hidden">
+                 <div class="bg-white/80 p-6 rounded-2xl shadow-lg border border-white/40 backdrop-blur-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-semibold text-[#604029]">Bitácora Diaria y Reporte Semanal</h2>
+                         <div class="flex items-center space-x-2">
+                             <button id="prev-day-btn" class="p-2 rounded-md hover:bg-white/80">◀</button>
+                             <input type="date" id="report-date-picker" class="p-2 border rounded-md">
+                             <button id="next-day-btn" class="p-2 rounded-md hover:bg-white/80">▶</button>
+                         </div>
+                        <button id="lock-week-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700">Cerrar y Guardar Semana</button>
+                    </div>
+
+                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2">
+                            <h3 class="text-lg font-semibold text-[#604029] mb-3">Ventas del Día por Plato</h3>
+                            <div id="sales-by-dish-container" class="space-y-2 max-h-96 overflow-y-auto pr-2"></div>
+                             <h3 class="text-lg font-semibold text-[#604029] mt-6 mb-3">Compras del Día</h3>
+                             <div class="flex items-center space-x-2">
+                                <label for="daily-purchase-input" class="summary-label">Total Compras ($):</label>
+                                <input type="number" id="daily-purchase-input" class="p-2 border rounded-md text-right">
+                             </div>
+                        </div>
+
+                        <div class="lg:col-span-1 bg-white/50 p-6 rounded-xl border">
+                             <h3 class="text-xl font-semibold text-[#604029] mb-4 text-center">Resumen de la Semana Actual</h3>
+                             <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="summary-label text-lg">Ventas de la Semana</span>
+                                     <span id="report-total-sales" class="summary-value text-lg w-40 text-right pr-2">$0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <label for="report-inv-initial" class="summary-label text-lg">Inventario Inicial</label>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="number" id="report-inv-initial" class="report-input w-40 p-2 border rounded-md text-right text-lg font-semibold" readonly>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="summary-label text-lg">Compras</span>
+                                    <span id="report-purchases" class="summary-value text-lg w-40 text-right pr-2">$0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <label for="report-inv-final" class="summary-label text-lg">Inventario Final</label>
+                                     <div class="flex items-center space-x-2">
+                                        <input type="number" id="report-inv-final" class="report-input w-40 p-2 border rounded-md text-right text-lg font-semibold" readonly>
+                                    </div>
+                                </div>
+                                <hr class="border-t-2 border-[#604029]/30 my-4">
+                                <div class="flex justify-between items-center bg-[#604029] text-white p-3 rounded-lg">
+                                    <span class="font-bold text-xl">COSTO DE PARTES</span>
+                                    <span id="report-cogs" class="font-bold text-xl">$0.00</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-[#604029] text-white p-3 rounded-lg">
+                                    <span class="font-bold text-xl">% COSTO</span>
+                                    <span id="report-cost-percent" class="font-bold text-xl">0.00%</span>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+            </div>
+
+            <div id="view-report-history" class="hidden">
+                 <div class="bg-white/80 p-6 rounded-2xl shadow-lg border border-white/40 backdrop-blur-md">
+                    <h2 class="text-2xl font-semibold text-[#604029] mb-4">Historial de Reportes Semanales</h2>
+                    <div id="weekly-reports-list" class="space-y-4">
+                        <p class="text-center text-gray-500">No hay reportes guardados.</p>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
@@ -430,7 +580,7 @@
         // --- FIREBASE SDK IMPORTS ---
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, doc, getDocs, setDoc, deleteDoc, addDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, getDocs, setDoc, deleteDoc, addDoc, writeBatch, updateDoc, serverTimestamp, query, orderBy, limit, getDoc, collectionGroup, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // --- FIREBASE CONFIGURATION ---
         const firebaseConfig = {
@@ -452,13 +602,22 @@
         const ingredientsCol = collection(db, 'ingredients');
         const recipesCol = collection(db, 'recipes');
         const menusCol = collection(db, 'menus');
+        const snapshotsCol = collection(db, 'inventorySnapshots');
+        const weeklyReportsCol = collection(db, 'weeklyReports');
+        const dailySalesCol = collection(db, 'dailySales');
+
         let ingredients = []; 
         let savedRecipes = []; 
         let menus = [];
+        let inventorySnapshots = [];
+        let weeklyReports = [];
         let combinedIngredients = [];
         let currentRecipe = {}; 
         let selectedIngredientId = null;
         let validatedCsvContent = null;
+        let totalInventoryValue = 0;
+        let currentReportDate = new Date();
+        let weeklyDataCache = {};
 
         // --- DOM ELEMENT SELECTORS ---
         const selectors = {
@@ -467,12 +626,22 @@
                 ingredients: document.getElementById('nav-ingredients'),
                 recipes: document.getElementById('nav-recipes'),
                 dishes: document.getElementById('nav-dishes'),
+                inventory: document.getElementById('nav-inventory'),
+                inventoryHistory: document.getElementById('nav-inventory-history'),
+                varianceAnalysis: document.getElementById('nav-variance-analysis'),
+                reports: document.getElementById('nav-reports'),
+                reportHistory: document.getElementById('nav-report-history'),
             },
             views: {
                 calculator: document.getElementById('view-calculator'),
                 ingredients: document.getElementById('view-ingredients'),
                 recipes: document.getElementById('view-recipes'),
                 dishes: document.getElementById('view-dishes'),
+                inventory: document.getElementById('view-inventory'),
+                inventoryHistory: document.getElementById('view-inventory-history'),
+                varianceAnalysis: document.getElementById('view-variance-analysis'),
+                reports: document.getElementById('view-reports'),
+                reportHistory: document.getElementById('view-report-history'),
             },
             calculator: {
                 recipeTableBody: document.getElementById('recipe-table-body'),
@@ -524,6 +693,40 @@
                 dashboard: document.getElementById('menus-dashboard'),
                 manageMenusBtn: document.getElementById('manage-menus-btn'),
             },
+            inventory: {
+                 tableBody: document.getElementById('inventory-table-body'),
+                 totalValue: document.getElementById('total-inventory-value'),
+                 snapshotBtn: document.getElementById('inventory-snapshot-btn'),
+            },
+            inventoryHistory: {
+                list: document.getElementById('inventory-snapshot-list'),
+            },
+            varianceAnalysis: {
+                periodSelect: document.getElementById('variance-period-select'),
+                calculateBtn: document.getElementById('calculate-variance-btn'),
+                resultsContainer: document.getElementById('variance-results-container'),
+                resultsTable: document.getElementById('variance-results-table'),
+                totalVariance: document.getElementById('total-variance-value'),
+            },
+            reports: {
+                datePicker: document.getElementById('report-date-picker'),
+                prevDayBtn: document.getElementById('prev-day-btn'),
+                nextDayBtn: document.getElementById('next-day-btn'),
+                salesByDishContainer: document.getElementById('sales-by-dish-container'),
+                dailyPurchaseInput: document.getElementById('daily-purchase-input'),
+                lockWeekBtn: document.getElementById('lock-week-btn'),
+                summary: {
+                    totalSales: document.getElementById('report-total-sales'),
+                    purchases: document.getElementById('report-purchases'),
+                    cogs: document.getElementById('report-cogs'),
+                    costPercent: document.getElementById('report-cost-percent'),
+                    initialInvInput: document.getElementById('report-inv-initial'),
+                    finalInvInput: document.getElementById('report-inv-final'),
+                }
+            },
+            reportHistory: {
+                list: document.getElementById('weekly-reports-list'),
+            },
             modals: {
                 editIngredient: {
                     overlay: document.getElementById('edit-ingredient-modal'),
@@ -556,10 +759,13 @@
 
         // --- EVENT LISTENERS ---
         function setupEventListeners() {
-            selectors.nav.calculator.addEventListener('click', () => switchView('calculator'));
-            selectors.nav.ingredients.addEventListener('click', () => switchView('ingredients'));
-            selectors.nav.recipes.addEventListener('click', () => switchView('recipes'));
-            selectors.nav.dishes.addEventListener('click', () => switchView('dishes'));
+            Object.values(selectors.nav).forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const viewNameKebab = e.currentTarget.id.replace('nav-', '');
+                    const viewName = viewNameKebab.replace(/-./g, x => x[1].toUpperCase());
+                    switchView(viewName);
+                });
+            });
 
             const calc = selectors.calculator;
             calc.clearRecipeBtn.addEventListener('click', handleClearRecipe);
@@ -583,8 +789,18 @@
             selectors.modals.manageMenus.closeBtn.addEventListener('click', () => selectors.modals.manageMenus.overlay.classList.add('hidden'));
             selectors.modals.manageMenus.form.addEventListener('submit', handleAddMenu);
 
+            selectors.inventory.snapshotBtn.addEventListener('click', handleInventorySnapshot);
+            
+            selectors.varianceAnalysis.calculateBtn.addEventListener('click', calculateVariance);
+
+            selectors.reports.datePicker.addEventListener('input', handleDateChange);
+            selectors.reports.prevDayBtn.addEventListener('click', () => changeReportDay(-1));
+            selectors.reports.nextDayBtn.addEventListener('click', () => changeReportDay(1));
+            selectors.reports.dailyPurchaseInput.addEventListener('change', handleDailyDataUpdate);
+            selectors.reports.lockWeekBtn.addEventListener('click', handleLockWeek);
+
             document.addEventListener('click', (e) => {
-                if (!selectors.calculator.ingredientSearchInput.contains(e.target)) {
+                if (selectors.calculator.ingredientSearchInput && !selectors.calculator.ingredientSearchInput.contains(e.target)) {
                     selectors.calculator.ingredientSearchResults.classList.add('hidden');
                 }
             });
@@ -593,57 +809,70 @@
         // --- AUTHENTICATION & DATA LOADING ---
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in, now we can listen for data.
-                onSnapshot(ingredientsCol, (snapshot) => {
+                onSnapshot(ingredientsCol, snapshot => {
                     ingredients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), isRecipe: false }));
-                    updateCombinedIngredients();
-                    renderAllDynamicViews();
+                    updateCombinedIngredientsAndRender();
                 });
-
-                onSnapshot(recipesCol, (snapshot) => {
+                onSnapshot(recipesCol, snapshot => {
                     savedRecipes = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    updateCombinedIngredients();
-                    renderAllDynamicViews();
+                    updateCombinedIngredientsAndRender();
                 });
-                
-                onSnapshot(menusCol, (snapshot) => {
+                onSnapshot(menusCol, snapshot => {
                     menus = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     renderAllDynamicViews();
                 });
+                onSnapshot(query(snapshotsCol, orderBy("createdAt", "desc")), snapshot => {
+                    inventorySnapshots = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    renderInventoryHistoryView();
+                    fetchWeeklyData(currentReportDate);
+                });
+                onSnapshot(query(weeklyReportsCol, orderBy("id", "desc")), snapshot => {
+                    weeklyReports = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    populateVariancePeriodSelect();
+                    renderReportHistoryView();
+                });
             } else {
-                // User is signed out. Attempt to sign in anonymously.
                 signInAnonymously(auth).catch(error => console.error("Anonymous sign-in failed:", error));
             }
         });
+
+        function updateCombinedIngredientsAndRender() {
+            updateCombinedIngredients();
+            renderAllDynamicViews();
+        }
 
         function updateCombinedIngredients() {
             const internalProductsAsIngredients = savedRecipes
                 .filter(r => !r.isFinalDish)
                 .map(r => {
-                    const totalCost = r.ingredients.reduce((acc, item) => acc + (item.grams * item.costPerGram), 0);
-                    let totalGrams;
-                     if (['l', 'ml'].includes(r.yieldUnit)) {
-                        totalGrams = r.yield * (r.yieldUnit === 'l' ? 1000 : 1);
-                    } else if (['kg', 'lb', 'oz', 'g'].includes(r.yieldUnit)) {
-                        totalGrams = r.yield * CONVERSIONS[r.yieldUnit];
-                    } else { // for 'un.'
-                        totalGrams = r.ingredients.reduce((acc, item) => acc + item.grams, 0);
+                    const recipeIngredients = r.ingredients || [];
+                    const totalCost = recipeIngredients.reduce((acc, item) => acc + (item.grams * item.costPerGram), 0);
+                    let totalGrams = 0;
+                    if (['l', 'ml', 'kg', 'lb', 'oz', 'g'].includes(r.yieldUnit)) {
+                        totalGrams = r.yield * (CONVERSIONS[r.yieldUnit] || 0);
+                    } else if (r.yieldUnit === 'un.') {
+                        totalGrams = recipeIngredients.reduce((acc, item) => acc + item.grams, 0);
                     }
+                    const costPerGram = totalGrams > 0 ? totalCost / totalGrams : 0;
                     return {
-                        id: r.id,
-                        name: r.name,
-                        materialCode: 'N/A',
-                        costPerGram: totalGrams > 0 ? totalCost / totalGrams : 0,
-                        isRecipe: true
+                        id: r.id, name: r.name, materialCode: 'N/A', costPerGram, isRecipe: true,
+                        stockUnit: r.yieldUnit, currentStock: r.currentStock || 0, parStock: r.parStock || 0,
+                        ingredients: recipeIngredients, yield: r.yield, yieldUnit: r.yieldUnit
                     };
                 });
-            combinedIngredients = [...ingredients, ...internalProductsAsIngredients];
+            
+             const rawIngredients = ingredients.map(ing => ({
+                ...ing, stockUnit: ing.purchaseUnit, currentStock: ing.currentStock || 0, parStock: ing.parStock || 0
+            }));
+
+            combinedIngredients = [...rawIngredients, ...internalProductsAsIngredients];
         }
 
         // --- NAVIGATION & VIEW MANAGEMENT ---
         function switchView(viewName) {
+            const formattedViewName = viewName.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
             Object.values(selectors.views).forEach(view => view.classList.add('hidden'));
-            selectors.views[viewName].classList.remove('hidden');
+            if(selectors.views[viewName]) selectors.views[viewName].classList.remove('hidden');
 
             const navButtons = document.querySelectorAll('nav button');
             navButtons.forEach(btn => {
@@ -651,9 +880,11 @@
                 btn.classList.add('text-[#604029]', 'hover:bg-white/80', 'border', 'border-transparent', 'hover:border-white');
             });
 
-            const activeBtn = document.getElementById(`nav-${viewName}`);
-            activeBtn.classList.add('bg-[#604029]', 'text-white', 'shadow-sm');
-            activeBtn.classList.remove('text-[#604029]', 'hover:bg-white/80', 'border', 'border-transparent', 'hover:border-white');
+            const activeBtn = document.getElementById(`nav-${formattedViewName}`);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-[#604029]', 'text-white', 'shadow-sm');
+                activeBtn.classList.remove('text-[#604029]', 'hover:bg-white/80', 'border', 'border-transparent', 'hover:border-white');
+            }
         }
 
         // --- UI LOGIC ---
@@ -701,11 +932,12 @@
         }
 
         // --- INGREDIENT LIBRARY LOGIC ---
-        const CONVERSIONS = { g: 1, kg: 1000, lb: 453.592, oz: 28.3495, l: 1000, ml: 1 };
+        const CONVERSIONS = { g: 1, kg: 1000, lb: 453.592, oz: 28.3495, l: 1000, ml: 1, 'un.': 1 };
         
         function calculateCostPerGram(quantity, unit, cost) {
-            if (unit === 'un.') { // Can't determine cost per gram for 'unit'
-                return 0;
+            if (unit === 'un.') {
+                 const totalUnits = quantity || 1;
+                 return cost / totalUnits;
             }
             const totalGrams = quantity * (CONVERSIONS[unit] || 0);
             return totalGrams > 0 ? cost / totalGrams : 0;
@@ -727,7 +959,9 @@
                     purchaseQuantity,
                     purchaseUnit,
                     purchaseCost, 
-                    costPerGram: calculateCostPerGram(purchaseQuantity, purchaseUnit, purchaseCost)
+                    costPerGram: calculateCostPerGram(purchaseQuantity, purchaseUnit, purchaseCost),
+                    currentStock: 0,
+                    parStock: 0
                 };
                 try {
                     await setDoc(doc(db, 'ingredients', String(code)), newIngredient);
@@ -831,13 +1065,16 @@
 
                 if (!isNaN(purchaseQuantity) && purchaseUnit && !isNaN(purchaseCost)) {
                     const ingredientRef = doc(db, 'ingredients', String(materialCode));
+                     const existingIngredient = ingredients.find(ing => ing.materialCode === materialCode);
                     batch.set(ingredientRef, {
                         materialCode,
                         name,
                         purchaseQuantity,
                         purchaseUnit,
                         purchaseCost,
-                        costPerGram: calculateCostPerGram(purchaseQuantity, purchaseUnit, purchaseCost)
+                        costPerGram: calculateCostPerGram(purchaseQuantity, purchaseUnit, purchaseCost),
+                        currentStock: existingIngredient ? existingIngredient.currentStock : 0,
+                        parStock: existingIngredient ? existingIngredient.parStock : 0,
                     });
                     importCount++;
                 }
@@ -940,7 +1177,7 @@
             updatedData.costPerGram = calculateCostPerGram(updatedData.purchaseQuantity, updatedData.purchaseUnit, updatedData.purchaseCost);
             
             try {
-                await setDoc(doc(db, 'ingredients', id), updatedData);
+                await setDoc(doc(db, 'ingredients', id), updatedData, { merge: true });
                 closeEditModal();
                 showNotification("Ingrediente actualizado.");
             } catch (error) {
@@ -973,6 +1210,8 @@
             const recipeToSave = JSON.parse(JSON.stringify(currentRecipe));
             const recipeId = recipeToSave.id;
             delete recipeToSave.id;
+             if (!recipeToSave.currentStock) recipeToSave.currentStock = 0;
+            if (!recipeToSave.parStock) recipeToSave.parStock = 0;
 
             try {
                 if (recipeId) {
@@ -1041,7 +1280,8 @@
             const ingredient = combinedIngredients.find(ing => ing.id === id);
             if (ingredient) {
                 selectors.calculator.ingredientSearchInput.value = `${ingredient.materialCode || 'N/A'} - ${ingredient.name}`;
-                selectors.calculator.costPerGramPreview.textContent = `$${ingredient.costPerGram.toFixed(6)}`;
+                 const displayCost = (ingredient.purchaseUnit === 'un.') ? ingredient.costPerGram : ingredient.costPerGram;
+                selectors.calculator.costPerGramPreview.textContent = `$${displayCost.toFixed(6)}`;
             }
             selectors.calculator.ingredientSearchResults.classList.add('hidden');
         }
@@ -1062,9 +1302,16 @@
                 return;
             }
             
-            let grams = quantity * (CONVERSIONS[unit] || 0);
-
             const ingredient = combinedIngredients.find(ing => ing.id === selectedIngredientId);
+            if (!ingredient) return;
+
+             let grams = 0;
+            if (ingredient.purchaseUnit === 'un.') {
+                grams = quantity * (ingredient.purchaseQuantity || 1); // Special handling for 'un.' based on its own weight if available
+            } else {
+                grams = quantity * (CONVERSIONS[unit] || 0);
+            }
+
             const ingredientCopy = JSON.parse(JSON.stringify(ingredient));
             const existingItem = currentRecipe.ingredients.find(item => item.id === selectedIngredientId);
 
@@ -1092,6 +1339,8 @@
             currentRecipe.ingredients.forEach(item => {
                 const itemCost = item.grams * item.costPerGram;
                 const row = tableBody.insertRow();
+                const displayCost = (item.purchaseUnit === 'un.') ? item.costPerGram : item.costPerGram;
+
                 row.innerHTML = `
                     <td class="table-cell text-gray-600">${item.materialCode || 'N/A'}</td>
                     <td class="table-cell font-medium">${item.name}</td>
@@ -1099,7 +1348,7 @@
                         <input type="number" value="${item.grams.toFixed(2)}" data-id="${item.recipeIngredientId}" class="grams-input w-24 px-2 py-1 border rounded-md">
                     </td>
                     <td class="table-cell text-gray-500">g</td>
-                    <td class="table-cell text-gray-600">$${item.costPerGram.toFixed(6)}</td>
+                    <td class="table-cell text-gray-600">$${displayCost.toFixed(6)}</td>
                     <td class="table-cell font-semibold">$${itemCost.toFixed(2)}</td>
                     <td class="table-cell text-right">
                         <button data-id="${item.recipeIngredientId}" class="remove-from-recipe-btn text-red-500 hover:text-red-700 font-semibold">X</button>
@@ -1290,9 +1539,428 @@
             switchView('calculator');
         }
 
+        // --- INVENTORY VIEW ---
+        function renderInventoryView() {
+            const tableBody = selectors.inventory.tableBody;
+            tableBody.innerHTML = '';
+            let currentTotalValue = 0;
+
+            combinedIngredients.sort((a,b) => a.name.localeCompare(b.name)).forEach(item => {
+                const row = tableBody.insertRow();
+                const stockUnit = item.isRecipe ? item.yieldUnit : item.purchaseUnit;
+                
+                const costPerUnit = item.isRecipe 
+                    ? ((item.ingredients || []).reduce((acc, i) => acc + (i.grams * i.costPerGram), 0) / (item.yield || 1))
+                    : (item.purchaseCost / (item.purchaseQuantity || 1));
+
+                const stockValue = (item.currentStock || 0) * costPerUnit;
+                if (!isNaN(stockValue)) {
+                    currentTotalValue += stockValue;
+                }
+                
+                const stockValueDisplay = isNaN(stockValue) ? '$0.00' : `$${stockValue.toFixed(2)}`;
+                const costPerUnitDisplay = isNaN(costPerUnit) ? 'N/A' : `$${costPerUnit.toFixed(2)} / ${stockUnit}`;
+
+                row.innerHTML = `
+                    <td class="table-cell text-gray-600">${item.materialCode || 'N/A'}</td>
+                    <td class="table-cell font-medium">${item.name}</td>
+                    <td class="table-cell">
+                        <input type="number" value="${item.currentStock || 0}" data-id="${item.id}" data-type="currentStock" data-is-recipe="${item.isRecipe}" class="inventory-input w-24 p-1 border rounded-md">
+                    </td>
+                    <td class="table-cell text-gray-600">${stockUnit}</td>
+                    <td class="table-cell">
+                        <input type="number" value="${item.parStock || 0}" data-id="${item.id}" data-type="parStock" data-is-recipe="${item.isRecipe}" class="inventory-input w-24 p-1 border rounded-md">
+                    </td>
+                    <td class="table-cell text-gray-600">${costPerUnitDisplay}</td>
+                    <td class="table-cell font-semibold">${stockValueDisplay}</td>
+                `;
+            });
+            
+            totalInventoryValue = currentTotalValue;
+            selectors.inventory.totalValue.textContent = `$${totalInventoryValue.toFixed(2)}`;
+
+            document.querySelectorAll('.inventory-input').forEach(input => {
+                input.addEventListener('change', handleInventoryUpdate);
+            });
+        }
+        
+        async function handleInventoryUpdate(e) {
+            const { id, type, isRecipe } = e.target.dataset;
+            const value = parseFloat(e.target.value) || 0;
+            
+            const collectionName = (isRecipe === 'true') ? 'recipes' : 'ingredients';
+            const docRef = doc(db, collectionName, id);
+
+            try {
+                await updateDoc(docRef, { [type]: value });
+            } catch (error) {
+                console.error(`Error updating ${type} for ${id}:`, error);
+                showNotification("Error al actualizar inventario.", true);
+            }
+        }
+        
+        async function handleInventorySnapshot() {
+            const snapshotData = {
+                createdAt: serverTimestamp(),
+                totalValue: totalInventoryValue,
+                items: combinedIngredients.map(item => ({
+                    id: item.id,
+                    name: item.name,
+                    isRecipe: item.isRecipe,
+                    currentStock: item.currentStock || 0,
+                    stockUnit: item.isRecipe ? item.yieldUnit : item.purchaseUnit
+                }))
+            };
+            try {
+                await addDoc(snapshotsCol, snapshotData);
+                showNotification("Corte de inventario guardado exitosamente.");
+            } catch (error) {
+                console.error("Error guardando el corte de inventario:", error);
+                showNotification("No se pudo guardar el corte de inventario.", true);
+            }
+        }
+
+        function renderInventoryHistoryView() {
+            const list = selectors.inventoryHistory.list;
+            list.innerHTML = '';
+            if (inventorySnapshots.length === 0) {
+                list.innerHTML = `<p class="text-center text-gray-500">No hay cortes guardados.</p>`;
+                return;
+            }
+            inventorySnapshots.forEach(snap => {
+                const date = snap.createdAt?.toDate().toLocaleString() || 'Fecha no disponible';
+                const item = document.createElement('div');
+                item.className = 'p-4 border rounded-lg bg-white/50';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-semibold text-lg text-[#604029]">Corte de ${date}</span>
+                        <span class="font-bold text-xl text-[#374151]">$${snap.totalValue.toFixed(2)}</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // --- VARIANCE ANALYSIS ---
+        function populateVariancePeriodSelect() {
+            const select = selectors.varianceAnalysis.periodSelect;
+            select.innerHTML = '<option value="">Seleccione una semana...</option>';
+            weeklyReports.forEach(report => {
+                const option = document.createElement('option');
+                option.value = report.id;
+                option.textContent = `Semana del ${report.id}`;
+                select.appendChild(option);
+            });
+        }
+        
+        async function calculateVariance() {
+            const reportId = selectors.varianceAnalysis.periodSelect.value;
+            if (!reportId) {
+                showNotification("Por favor, seleccione un período de reporte.", true);
+                return;
+            }
+
+            const report = weeklyReports.find(r => r.id === reportId);
+            if (!report) {
+                 showNotification("Reporte no encontrado.", true);
+                return;
+            }
+            
+            // 1. Calculate Theoretical Consumption
+            const theoreticalConsumptionMap = new Map();
+            function traceIngredients(recipe, multiplier) {
+                if (!recipe || !recipe.ingredients) return;
+                recipe.ingredients.forEach(ing => {
+                    const foundIngredient = combinedIngredients.find(item => item.id === ing.id);
+                    if (!foundIngredient) return;
+
+                    const totalConsumedGrams = ing.grams * multiplier;
+
+                    if (foundIngredient.isRecipe) {
+                        const yieldInGrams = (foundIngredient.yield || 1) * (CONVERSIONS[foundIngredient.yieldUnit] || 1);
+                        traceIngredients(foundIngredient, totalConsumedGrams / yieldInGrams);
+                    } else {
+                        const existing = theoreticalConsumptionMap.get(ing.id) || { name: ing.name, total: 0 };
+                        theoreticalConsumptionMap.set(ing.id, { ...existing, total: existing.total + totalConsumedGrams });
+                    }
+                });
+            }
+
+            for (const dishId in report.sales) {
+                const quantitySold = report.sales[dishId] || 0;
+                if (quantitySold > 0) {
+                    const dish = savedRecipes.find(r => r.id === dishId);
+                    traceIngredients(dish, quantitySold);
+                }
+            }
+
+            // 2. Calculate Actual Consumption
+            const actualConsumptionMap = new Map();
+            const startSnapshot = inventorySnapshots.find(s => s.totalValue.toFixed(2) === report.initialInventory.toFixed(2));
+            const endSnapshot = inventorySnapshots.find(s => s.totalValue.toFixed(2) === report.finalInventory.toFixed(2));
+
+            if (!startSnapshot || !endSnapshot) {
+                showNotification("No se encontraron los cortes de inventario inicial o final para este reporte.", true);
+                return;
+            }
+            
+            combinedIngredients.forEach(item => {
+                const startItem = startSnapshot.items.find(i => i.id === item.id);
+                const endItem = endSnapshot.items.find(i => i.id === item.id);
+                
+                const startStockGrams = (startItem?.currentStock || 0) * (CONVERSIONS[item.stockUnit] || 1);
+                const endStockGrams = (endItem?.currentStock || 0) * (CONVERSIONS[item.stockUnit] || 1);
+                
+                // Note: Purchases are in $, not units. This is a limitation.
+                // We can only calculate variance for items where we have unit counts.
+                const actualConsumptionGrams = startStockGrams - endStockGrams; // Ignoring purchases for now
+                 actualConsumptionMap.set(item.id, {
+                    name: item.name,
+                    total: actualConsumptionGrams,
+                    costPerGram: item.costPerGram || 0,
+                 });
+            });
+
+            // 3. Compare and Render
+            const tableBody = selectors.varianceAnalysis.resultsTable;
+            tableBody.innerHTML = '';
+            let totalVarianceValue = 0;
+            const allItemIds = new Set([...theoreticalConsumptionMap.keys(), ...actualConsumptionMap.keys()]);
+
+
+            for (const id of allItemIds) {
+                const theoreticalData = theoreticalConsumptionMap.get(id) || { name: actualConsumptionMap.get(id)?.name, total: 0 };
+                const actualData = actualConsumptionMap.get(id) || { name: theoreticalData.name, total: 0, costPerGram: 0 };
+                const varianceGrams = actualData.total - theoreticalData.total;
+                const varianceValue = varianceGrams * actualData.costPerGram;
+                
+                if(!isNaN(varianceValue)) {
+                    totalVarianceValue += varianceValue;
+                }
+
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                    <td class="table-cell font-medium">${theoreticalData.name || actualData.name}</td>
+                    <td class="table-cell text-right">${theoreticalData.total.toFixed(2)}</td>
+                    <td class="table-cell text-right">${actualData.total.toFixed(2)}</td>
+                    <td class="table-cell text-right font-semibold ${varianceGrams < 0 ? 'text-red-600' : 'text-green-600'}">${varianceGrams.toFixed(2)}</td>
+                    <td class="table-cell text-right font-bold ${varianceValue < 0 ? 'text-red-600' : 'text-green-600'}">$${varianceValue.toFixed(2)}</td>
+                `;
+            }
+
+            selectors.varianceAnalysis.totalVariance.textContent = `$${totalVarianceValue.toFixed(2)}`;
+            selectors.varianceAnalysis.resultsContainer.classList.remove('hidden');
+        }
+
+
+        // --- REPORTING LOGIC ---
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function getWeekInfo(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            const monday = new Date(d.setDate(diff));
+            const weekId = formatDate(monday);
+            const week = Array.from({length: 7}, (_, i) => {
+                const day = new Date(monday);
+                day.setDate(monday.getDate() + i);
+                return formatDate(day);
+            });
+            return { weekId, week };
+        }
+        
+        function handleDateChange(e) {
+            const newDate = new Date(e.target.value + 'T00:00:00');
+            if (newDate.toDateString() !== currentReportDate.toDateString()) {
+                currentReportDate = newDate;
+                fetchWeeklyData(currentReportDate);
+            }
+        }
+
+        function changeReportDay(offset) {
+            currentReportDate.setDate(currentReportDate.getDate() + offset);
+            selectors.reports.datePicker.value = formatDate(currentReportDate);
+            fetchWeeklyData(currentReportDate);
+        }
+
+        async function fetchWeeklyData(date) {
+            const { weekId, week } = getWeekInfo(date);
+            
+            const promises = week.map(dayId => getDoc(doc(dailySalesCol, dayId)));
+            const daySnapshots = await Promise.all(promises);
+
+            weeklyDataCache = {};
+            daySnapshots.forEach(snap => {
+                if (snap.exists()) {
+                    weeklyDataCache[snap.id] = snap.data();
+                }
+            });
+            
+            renderDailyReport(date);
+            calculateWeeklySummary();
+        }
+
+        function renderDailyReport(date) {
+            const dateId = formatDate(date);
+            selectors.reports.datePicker.value = dateId;
+            const dailyData = weeklyDataCache[dateId] || { sales: {}, purchases: 0 };
+            
+            selectors.reports.dailyPurchaseInput.value = dailyData.purchases || '';
+            
+            const container = selectors.reports.salesByDishContainer;
+            container.innerHTML = '';
+            menus.forEach(menu => {
+                const menuDishes = savedRecipes.filter(r => r.isFinalDish && r.menuId === menu.id);
+                if (menuDishes.length === 0) return;
+
+                const section = document.createElement('details');
+                section.className = 'p-2 rounded-lg bg-white/30';
+                section.innerHTML = `<summary class="font-semibold text-md cursor-pointer text-[#604029]">${menu.name}</summary>`;
+                
+                const dishList = document.createElement('div');
+                dishList.className = 'mt-2 space-y-1 pl-4';
+                
+                menuDishes.forEach(dish => {
+                    const sales = dailyData.sales?.[dish.id] || '';
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between py-1';
+                    div.innerHTML = `
+                        <label class="summary-label">${dish.name}</label>
+                        <input type="number" value="${sales}" class="report-sale-input w-32 p-1 border rounded-md text-right" data-dish-id="${dish.id}">
+                    `;
+                    dishList.appendChild(div);
+                });
+                section.appendChild(dishList);
+                container.appendChild(section);
+            });
+            document.querySelectorAll('.report-sale-input').forEach(input => input.addEventListener('change', handleDailyDataUpdate));
+        }
+
+        async function handleDailyDataUpdate() {
+            const dateId = formatDate(currentReportDate);
+            const sales = {};
+            document.querySelectorAll('.report-sale-input').forEach(input => {
+                const qty = parseInt(input.value);
+                if (!isNaN(qty) && qty > 0) {
+                    sales[input.dataset.dishId] = qty;
+                }
+            });
+            const purchases = parseFloat(selectors.reports.dailyPurchaseInput.value) || 0;
+            
+            const dailyData = { sales, purchases };
+            await setDoc(doc(dailySalesCol, dateId), dailyData, { merge: true });
+            
+            weeklyDataCache[dateId] = dailyData;
+            calculateWeeklySummary();
+        }
+
+        async function calculateWeeklySummary() {
+            const { weekId, week } = getWeekInfo(currentReportDate);
+            let totalSales = 0;
+            let totalPurchases = 0;
+
+            week.forEach(dayId => {
+                const dayData = weeklyDataCache[dayId];
+                if (dayData) {
+                    totalPurchases += dayData.purchases || 0;
+                    for (const dishId in dayData.sales) {
+                        const qty = dayData.sales[dishId] || 0;
+                        const dish = savedRecipes.find(r => r.id === dishId);
+                        if (dish && dish.finalPrice) {
+                            totalSales += qty * dish.finalPrice;
+                        }
+                    }
+                }
+            });
+
+            const lastWeekId = getWeekInfo(new Date(new Date(week[0]).setDate(new Date(week[0]).getDate() - 1))).weekId;
+            const lastReportSnap = await getDoc(doc(weeklyReportsCol, lastWeekId));
+            const initialInv = lastReportSnap.exists() ? lastReportSnap.data().finalInventory : 0;
+            const finalInv = inventorySnapshots[0]?.totalValue || 0;
+            
+            selectors.reports.summary.totalSales.textContent = `$${totalSales.toFixed(2)}`;
+            selectors.reports.summary.purchases.textContent = `$${totalPurchases.toFixed(2)}`;
+            selectors.reports.summary.initialInvInput.value = initialInv.toFixed(2);
+            selectors.reports.summary.finalInvInput.value = finalInv.toFixed(2);
+
+            const cogs = initialInv + totalPurchases - finalInv;
+            const costPercent = totalSales > 0 ? (cogs / totalSales) * 100 : 0;
+            
+            selectors.reports.summary.cogs.textContent = `$${cogs.toFixed(2)}`;
+            selectors.reports.summary.costPercent.textContent = `${costPercent.toFixed(2)}%`;
+        }
+
+        async function handleLockWeek() {
+             const { weekId, week } = getWeekInfo(currentReportDate);
+             const sales = {};
+             let totalSales = 0;
+             let totalPurchases = 0;
+             
+             week.forEach(dayId => {
+                const dayData = weeklyDataCache[dayId];
+                if (dayData) {
+                    totalPurchases += dayData.purchases || 0;
+                     for (const dishId in dayData.sales) {
+                        const qty = dayData.sales[dishId] || 0;
+                        sales[dishId] = (sales[dishId] || 0) + qty;
+                        const dish = savedRecipes.find(r => r.id === dishId);
+                        if (dish && dish.finalPrice) {
+                            totalSales += qty * dish.finalPrice;
+                        }
+                    }
+                }
+            });
+
+            const reportData = {
+                id: weekId,
+                sales,
+                totalSales,
+                totalPurchases,
+                initialInventory: parseFloat(selectors.reports.summary.initialInvInput.value) || 0,
+                finalInventory: parseFloat(selectors.reports.summary.finalInvInput.value) || 0,
+            };
+            
+            try {
+                await setDoc(doc(db, 'weeklyReports', weekId), reportData);
+                showNotification("Reporte semanal guardado y cerrado.");
+            } catch (error) {
+                 console.error("Error guardando reporte semanal:", error);
+                showNotification("No se pudo guardar el reporte.", true);
+            }
+        }
+
+        function renderReportHistoryView() {
+            const list = selectors.reportHistory.list;
+            list.innerHTML = '';
+             if (weeklyReports.length === 0) {
+                list.innerHTML = `<p class="text-center text-gray-500">No hay reportes guardados.</p>`;
+                return;
+            }
+            weeklyReports.forEach(report => {
+                const item = document.createElement('div');
+                item.className = 'p-4 border rounded-lg bg-white/50';
+                const cogs = report.initialInventory + report.totalPurchases - report.finalInventory;
+                const costPercent = report.totalSales > 0 ? (cogs / report.totalSales) * 100 : 0;
+                item.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-semibold text-lg text-[#604029]">Semana del ${report.id}</span>
+                        <div>
+                            <span class="summary-label mr-2">Costo:</span>
+                            <span class="font-bold text-xl text-[#374151]">${costPercent.toFixed(2)}%</span>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+
         // --- CALCULATION LOGIC ---
         function calculateSummary() {
-            const { costoMp, costoPp, imprevistosValue, totalCosto, costPercent, precioSugerido, taxValue, precioFactura } = calculateRecipeMetrics(currentRecipe);
+            const { costoMp, costoPp, imprevistosValue, totalCosto, precioSugerido } = calculateRecipeMetrics(currentRecipe);
             const fv = selectors.calculator.summaryValues;
             
             fv.costoMp.textContent = `$${costoMp.toFixed(2)}`;
@@ -1302,28 +1970,27 @@
 
             if (currentRecipe.isFinalDish) {
                 fv.precioSugerido.textContent = `$${precioSugerido.toFixed(2)}`;
-                fv.taxValue.textContent = `$${taxValue.toFixed(2)}`;
-                fv.precioFactura.textContent = `$${precioFactura.toFixed(2)}`;
+                const tax = precioSugerido * (parseFloat(selectors.calculator.summaryInputs.taxPercent.value) / 100 || 0);
+                fv.taxValue.textContent = `$${tax.toFixed(2)}`;
+                fv.precioFactura.textContent = `$${(precioSugerido + tax).toFixed(2)}`;
             }
         }
 
         function calculateRecipeMetrics(recipeObject) {
             const calc = selectors.calculator;
             const yieldVal = recipeObject.yield || 1;
-            const costoMp = recipeObject.ingredients.reduce((acc, item) => acc + (item.grams * item.costPerGram), 0);
-            const costoPp = costoMp / yieldVal;
+            const costoMp = (recipeObject.ingredients || []).reduce((acc, item) => acc + (item.grams * item.costPerGram), 0);
+            const costoPp = yieldVal > 0 ? costoMp / yieldVal : 0;
             const imprevistosPercent = parseFloat(calc.summaryInputs.imprevistosPercent.value) || 0;
             const imprevistosValue = costoMp * (imprevistosPercent / 100);
             const totalCosto = costoMp + imprevistosValue;
             
             const costPercentVal = parseFloat(calc.summaryInputs.costPercent.value) || 100;
-            const taxPercent = parseFloat(calc.summaryInputs.taxPercent.value) || 0;
             const precioSugerido = costPercentVal > 0 ? (totalCosto / (costPercentVal / 100)) : 0;
-            const taxValue = precioSugerido * (taxPercent / 100);
-            const precioFactura = precioSugerido + taxValue;
             
-            return { costoMp, costoPp, imprevistosValue, totalCosto, costPercent: costPercentVal, precioSugerido, taxValue, precioFactura };
+            return { costoMp, costoPp, imprevistosValue, totalCosto, costPercent: costPercentVal, precioSugerido };
         }
+        
 
         // --- MODAL & DELETE LOGIC ---
         function closeEditModal() {
@@ -1344,16 +2011,10 @@
 
             const confirmAction = async () => {
                 try {
-                    if (type === 'ingredient') {
-                        await deleteDoc(doc(db, 'ingredients', id));
-                        showNotification("Ingrediente eliminado.");
-                    } else if (type === 'recipe') {
-                        await deleteDoc(doc(db, 'recipes', id));
-                        showNotification("Receta eliminada.");
-                    } else if (type === 'menu') {
-                        await deleteDoc(doc(db, 'menus', id));
-                        showNotification("Menú eliminado.");
-                    }
+                    if (type === 'ingredient') await deleteDoc(doc(db, 'ingredients', id));
+                    else if (type === 'recipe') await deleteDoc(doc(db, 'recipes', id));
+                    else if (type === 'menu') await deleteDoc(doc(db, 'menus', id));
+                    showNotification("Item eliminado.");
                 } catch (error) {
                     console.error("Error al eliminar:", error);
                     showNotification("No se pudo eliminar el item.", true);
@@ -1362,19 +2023,15 @@
                 }
             };
             
-            const cancelAction = () => {
-                closeConfirmModal();
-            };
-
+            modal.cancelBtn.onclick = closeConfirmModal;
             modal.confirmBtn.onclick = confirmAction;
-            modal.cancelBtn.onclick = cancelAction;
-            modal.overlay.onclick = (e) => { if(e.target === e.currentTarget) cancelAction() };
+            modal.overlay.onclick = (e) => { if(e.target === e.currentTarget) closeConfirmModal() };
         }
 
         function closeConfirmModal() {
             const modal = selectors.modals.confirmDelete;
             modal.overlay.classList.add('hidden');
-            modal.confirmBtn.onclick = null; // Clean up listeners
+            modal.confirmBtn.onclick = null;
             modal.cancelBtn.onclick = null;
             modal.overlay.onclick = null;
         }
@@ -1408,14 +2065,17 @@
             document.querySelectorAll('.delete-menu-btn').forEach(btn => btn.addEventListener('click', (e) => confirmDelete('menu', e.target.dataset.id)));
         }
         
-        function populateMenuDropdown() {
-            const select = selectors.calculator.menuSelect;
-            select.innerHTML = '<option value="">Seleccione un Menú...</option>';
-            menus.forEach(menu => {
-                const option = document.createElement('option');
-                option.value = menu.id;
-                option.textContent = menu.name;
-                select.appendChild(option);
+        function populateMenuDropdowns() {
+            const selects = [selectors.calculator.menuSelect];
+            selects.forEach(select => {
+                if (!select) return;
+                select.innerHTML = '<option value="">Seleccione un Menú...</option>';
+                menus.forEach(menu => {
+                    const option = document.createElement('option');
+                    option.value = menu.id;
+                    option.textContent = menu.name;
+                    select.appendChild(option);
+                });
             });
         }
 
@@ -1426,7 +2086,8 @@
             renderAllRecipesView();
             renderFinalDishes();
             renderMenuList();
-            populateMenuDropdown();
+            populateMenuDropdowns();
+            renderInventoryView();
         }
 
         window.onload = () => {
@@ -1437,3 +2098,4 @@
     </script>
 </body>
 </html>
+
